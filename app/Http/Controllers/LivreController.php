@@ -34,7 +34,7 @@ class LivreController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+       $request->validate([
             'titre' => 'required',
             'isbn' => 'required',
             'annee_edition' => 'required',
@@ -51,6 +51,16 @@ class LivreController extends Controller
         $livre->image = $request->image;
 
         return $livre->save();
+        /* $request->validate([
+            'titre' => 'required',
+             'isbn'=>'required',
+             'annee_edition'=>'required',
+             'resume'=>'required',
+             'nbr_exemplaire'=>'required',
+             'image' =>'required'
+
+        ]);
+        return Livre::create($request->all());*/
     }
 
     /**

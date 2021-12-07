@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EmpruntController;
+use App\Http\Controllers\HistoriqueController;
 use App\Http\Controllers\LivreController;
+use App\Http\Controllers\UserController;
 use App\Models\User;
 
 
@@ -20,11 +23,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::resource('emprunts', EmpruntController::class);
+Route::resource('users', UserController::class);
+Route::resource('historique', HistoriqueController::class);
+
 Route::middleware('auth:sanctum')->group(function () {
-   Route::get('livres/search/{name}', [LivreController::class,'search']);
-   Route::resource('livres', LivreController::class);
-   Route::post('/logout', [AuthController::class, 'logout']);
+Route::resource('livres', LivreController::class);
+Route::post('/logout', [AuthController::class, 'logout']);
+Route::get('livres/search/{name}', [LivreController::class,'search']);
 });
