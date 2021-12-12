@@ -27,9 +27,11 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::resource('emprunts', EmpruntController::class);
+Route::post('useremprunt/{id}',[EmpruntController::class,'store1']);
+Route::get('empuser/{id}', [EmpruntController::class,'index1']);
 Route::resource('users', UserController::class);
 Route::resource('historique', HistoriqueController::class);
-
+Route::get('historiqueuser/{id}', [HistoriqueController::class,'index1']);
 Route::middleware('auth:sanctum')->group(function () {
 Route::resource('livres', LivreController::class);
 Route::post('/logout', [AuthController::class, 'logout']);

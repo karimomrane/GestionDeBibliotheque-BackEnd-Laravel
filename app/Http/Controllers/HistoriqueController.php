@@ -18,7 +18,21 @@ class HistoriqueController extends Controller
      */
     public function index()
     {
+
         $historique = Historique::all();
+        foreach ($historique as $i => $e) {
+            $e->user= User::where('id',$e->user)->get()->first();
+            $e->livre= livre::where('id',$e->livre)->get()->first();
+            $e->created_at =Carbon::parse($e->created_at)->format('d-m-Y');
+            $e->updated_at =Carbon::parse($e->updated_at)->format('d-m-Y');
+        }
+
+        return $historique;
+    }
+    public function index1($id)
+    {
+        
+        $historique = Historique::where('user',$id)->get();
         foreach ($historique as $i => $e) {
             $e->user= User::where('id',$e->user)->get()->first();
             $e->livre= livre::where('id',$e->livre)->get()->first();

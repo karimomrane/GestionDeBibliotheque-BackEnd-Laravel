@@ -26,6 +26,17 @@ class EmpruntController extends Controller
 
         return $emprunts;
     }
+    public function index1($id)
+    {
+        $emprunts = Emprunt::where('updated_at',null)->where('user',$id)->get();
+        foreach ($emprunts as $i => $e) {
+            $e->user= User::where('id',$e->user)->get()->first();
+            $e->livre= livre::where('id',$e->livre)->get()->first();
+            $e->created_at =Carbon::parse($e->created_at)->format('d-m-Y');;
+        }
+
+        return $emprunts;
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -66,7 +77,25 @@ class EmpruntController extends Controller
         return 'Le livre a été emprunté';
     }
     }
+    public function store1(Request $request, $idbook){
 
+        $request->validate([
+            'livre' => 'required',
+            'user' => 'required', 
+        ]);
+        $dt = Carbon::now();
+        $livre = livre::find($idbook);
+        $emprunt = new Emprunt;
+        $emprunt->livre = $request->livre;
+        $emprunt->user = $request->user;
+        $emprunt->created_at =$dt->toDateString();
+        $emprunt->updated_at =null;
+        $livre->nbr_exemplaire-=1;
+        $emprunt->save();
+        $livre->save();
+        return 'Le livre a été emprunté';
+
+    }
     /**
      * Display the specified resource.
      *
